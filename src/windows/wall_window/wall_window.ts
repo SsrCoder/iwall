@@ -37,11 +37,16 @@ function createWallWindow(): BrowserWindow {
 
   wallWindow.loadURL(getUrl())
 
-  if (!process.env.WEBPACK_DEV_SERVER_URL && !process.env.IS_TEST) {
-    wallWindow.webContents.openDevTools({
-      mode: 'undocked',
-    })
+  if (process.platform == 'win32') {
+    const paper = require('electron-wallpaper')
+    paper.attachWindow(wallWindow)
   }
+
+  // if (!process.env.WEBPACK_DEV_SERVER_URL && !process.env.IS_TEST) {
+  wallWindow.webContents.openDevTools({
+    mode: 'undocked',
+  })
+  // }
 
   wallWindow.on('close', () => (wallWindow = null))
 
